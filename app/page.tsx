@@ -18,10 +18,8 @@ export default function Home() {
     <>
       <HeroSection />
       <IntoSection />
-      <ServicesSection />
-      <CtaSection />
-      <SolutionsSection />
       <CountingsSection />
+      <SolutionsSection /> 
       <WhyUsSection />
       <NoFragmentationsSection />
       <IntegrationsSection />

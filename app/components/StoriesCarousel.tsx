@@ -28,7 +28,7 @@ export default function StoriesCarousel({ items }: StoriesCarouselProps) {
   return (
     <section id="stories" className="bg-white py-[4.5rem] lg:py-24">
       <div className="mx-auto w-full max-w-[1180px] px-6">
-        <h2 className="text-center font-[var(--font-display)] text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.05] tracking-[-0.02em]">
+        <h2 className="text-center font-semibold max-[900px]:text-[1.8rem] tracking-tighter text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.05] tracking-[-0.02em]">
           Real Stories, Real Impact
         </h2>
         <div className="mt-10 overflow-hidden rounded-[1.6rem]">

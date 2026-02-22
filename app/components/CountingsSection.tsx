@@ -33,9 +33,9 @@ export default function CountingsSection() {
           </div>
         </div>
 
-        <div className="mt-16 rounded-[28px] bg-[#d9efc5] px-6 py-12 text-center md:px-12">
+        <div className="mt-16 rounded-[28px] bg-[#d9efc5] px-6 py-12 max-[900px]:py-20 max-[900px]:px-3 text-center md:px-12">
           <p className="text-sm text-[#2f2f2f]">Our purpose</p>
-          <h3 className="mt-3 text-[clamp(1.8rem,4vw,3rem)] tracking-tighter font-bold text-[#2c2c2c]">
+          <h3 className="mt-3 text-[1.8rem] max-[900px]:leading-9 tracking-tighter font-bold text-[#2c2c2c]">
             To unlock the true potential of
             <br />
             organisations and their people

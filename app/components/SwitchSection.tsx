@@ -6,7 +6,7 @@ export default function SwitchSection() {
     <section id="switch" className="bg-[#fbf6ef] py-16 md:py-20">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-[clamp(2rem,3.6vw,3rem)] font-bold text-[#2c2c2c]">
+          <h2 className="text-[clamp(2rem,3.6vw,3rem)] max-[900px]:text-[1.8rem] leading-[1.8rem] font-bold text-[#2c2c2c]">
             Switch to Cercli in a Few Hours
           </h2>
           <p className="mt-3 text-[16px] max-w-lg mx-auto text-[#3f3f3f]">

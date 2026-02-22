@@ -5,7 +5,7 @@ export default function IntegrationsSection() {
   return (
     <section id="integrations" className="bg-[#fbf6ef] py-[4.5rem] lg:py-24">
       <div className="mx-auto w-full max-w-[1180px] px-6">
-        <h2 className="text-center font-[var(--font-display)] text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.05] tracking-[-0.02em]">
+        <h2 className="text-center font-semibold  text-[2.4rem] max-[900px]:text-[2rem] leading-[1.05] tracking-[-0.02em]">
           Integrates with your favourite tools
         </h2>
         <div className="mt-10 flex justify-center">

@@ -160,7 +160,9 @@ export default function CercliHeader() {
           <div className="hidden sm:flex items-center justify-center gap-2.5">
             <span>
               Cercli raises{" "}
-              <strong className="text-white font-semibold">$12M Series A</strong>{" "}
+              <strong className="text-white font-semibold">
+                $12M Series A
+              </strong>{" "}
               led by{" "}
               <strong className="text-white font-semibold text-[12px] tracking-[0.07em]">
                 P↑CUS CAPITAL
@@ -181,7 +183,9 @@ export default function CercliHeader() {
           <div className="sm:hidden flex flex-col items-center gap-1 text-center">
             <span>
               Cercli raises{" "}
-              <strong className="text-white font-semibold">$12M Series A</strong>{" "}
+              <strong className="text-white font-semibold">
+                $12M Series A
+              </strong>{" "}
               led by
             </span>
             <div className="inline-flex items-center gap-2 text-white font-semibold text-[12px] tracking-[0.14em]">
@@ -250,8 +254,8 @@ export default function CercliHeader() {
 
           {/* Nav pill */}
           <nav
-            className="hidden lg:flex items-center gap-0.5 flex-1 justify-center max-w-[640px]
-                          bg-[#f0ede6] rounded-full px-2 py-1.5 border border-black/[0.07]"
+            className="hidden lg:flex items-center gap-0.5 flex-1  justify-center max-w-fit
+                          bg-[#ffffff] rounded-full px-2 py-1.5  shadow-sm"
           >
             {NAV_ITEMS.map((item) => (
               <NavTab
@@ -293,7 +297,7 @@ export default function CercliHeader() {
             aria-hidden="true"
           />
           <div className="relative pt-[120px]">
-            <div className="mx-5 rounded-[28px] bg-white px-6 py-6 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.35)]">
+            <div className="mx-5 rounded-[28px] bg-white mt-4 px-6 py-6 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.35)]">
               <nav className="grid gap-4 text-center">
                 {NAV_ITEMS.map((item) => (
                   <a

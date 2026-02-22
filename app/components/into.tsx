@@ -27,7 +27,11 @@ const payrollTags = [
   "Expense Reimbursements",
 ];
 
-const platformTags = ["Reports", "Role-Based Permissions", "Complete Visibility"];
+const platformTags = [
+  "Reports",
+  "Role-Based Permissions",
+  "Complete Visibility",
+];
 
 export default function IntoSection() {
   return (
@@ -36,22 +40,46 @@ export default function IntoSection() {
         <p className="text-center text-sm text-[#5a5a5a]">
           Trusted by leading MENA businesses
         </p>
-        <div className="mt-6 grid grid-cols-2 gap-3 text-center sm:grid-cols-4 lg:grid-cols-8">
+        <div className="mt-6 sm:hidden">
+          <div className="overflow-hidden">
+            <div className="flex w-max items-center gap-6 animate-[partner-marquee_18s_linear_infinite] motion-reduce:animate-none">
+              {[...partners, ...partners].map((partner, index) => (
+                <div
+                  key={`${partner.src}-${index}`}
+                  className="flex items-center justify-center"
+                >
+                  <Image
+                    src={partner.src}
+                    alt={partner.alt}
+                    width={120}
+                    height={40}
+                    className="h-8 w-auto"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="mt-6 hidden grid-cols-2 gap-3 text-center sm:grid sm:grid-cols-4 lg:grid-cols-8">
           {partners.map((partner) => (
             <div key={partner.src} className="flex items-center justify-center">
-              <Image src={partner.src} alt={partner.alt} width={120} height={40} className="h-8"/>
+              <Image
+                src={partner.src}
+                alt={partner.alt}
+                width={120}
+                height={40}
+                className="h-8 w-auto"
+              />
             </div>
           ))}
         </div>
 
-        <h2 className="mt-10 text-center text-[clamp(1.9rem,3.4vw,2.6rem)] font-bold text-[#2c2c2c]">
-          The Global HR System and Workforce
-          <br />
-          Platform That Works for You
+        <h2 className="mt-10 text-center max-w-2xl tracking-tighter max-[900px]:leading-6 leading-9 lg:my-24 mx-auto text-[clamp(1.9rem,3.4vw,2.6rem)] max-[900px]:text-[1.4rem] font-bold text-[#2c2c2c]">
+          The Global HR System and Workforce Platform That Works for You
         </h2>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <article className="grid gap-4 rounded-2xl border border-[#f0e6d8] bg-[#fbf6ef] transition-colors duration-200 hover:bg-[#A8C5A0] p-7">
+          <article className="grid gap-4 rounded-2xl bg-[#fbf6ef] transition-colors duration-200 hover:bg-[#A8C5A0] p-7 max-[900px]:p-5">
             <div>
               <h3 className="text-xl font-bold">HRIS</h3>
               <p className="mt-2 text-sm leading-relaxed text-[#565656]">
@@ -61,7 +89,7 @@ export default function IntoSection() {
             </div>
             <div className="overflow-hidden rounded-xl ">
               <Image
-                src="/assets/images/image2.webp"
+                src="/assets/images/image3.webp"
                 alt="HRIS overview"
                 width={860}
                 height={480}
@@ -80,7 +108,7 @@ export default function IntoSection() {
             </div>
           </article>
 
-          <article className="grid gap-4 rounded-2xl border border-[#f0e6d8] bg-[#fbf6ef] transition-colors duration-200 hover:bg-[#A8C5A0] p-7">
+          <article className="grid gap-4 rounded-2xl bg-[#fbf6ef] transition-colors duration-200 hover:bg-[#A8C5A0] p-7 max-[900px]:p-5">
             <div>
               <h3 className="text-xl font-bold">Payroll management</h3>
               <p className="mt-2 text-sm leading-relaxed text-[#565656]">
@@ -91,7 +119,7 @@ export default function IntoSection() {
             </div>
             <div className="overflow-hidden">
               <Image
-                src="/assets/images/image3.webp"
+                src="/assets/images/image2.webp"
                 alt="Payroll management overview"
                 width={860}
                 height={480}
@@ -111,13 +139,13 @@ export default function IntoSection() {
           </article>
         </div>
 
-        <article className="mt-6 grid gap-6 rounded-2xl border border-[#f0e6d8] bg-[#fbf6ef] transition-colors duration-200 hover:bg-[#A8C5A0] p-7 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+        <article className="mt-6 grid gap-6 rounded-2xl bg-[#fbf6ef] transition-colors duration-200 hover:bg-[#A8C5A0] p-7 max-[900px]:p-5 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div>
             <h3 className="text-lg font-bold">Platform</h3>
             <p className="mt-2 text-sm leading-relaxed text-[#565656]">
-              A fully connected platform that integrates seamlessly with all your
-              tools—bringing payroll, compliance, and workforce management together
-              in one place.
+              A fully connected platform that integrates seamlessly with all
+              your tools—bringing payroll, compliance, and workforce management
+              together in one place.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {platformTags.map((tag) => (
@@ -143,15 +171,15 @@ export default function IntoSection() {
 
         <div className="mt-8 rounded-[28px] bg-[#0f1115] px-6 py-12 text-center  md:px-12">
           <p className="text-sm text-white/70">Announcement</p>
-          <h3 className="mt-4 text-white text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-tight">
+          <h3 className="mt-4 text-white max-w-2xl mx-auto text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-tight">
             Cercli has raised a $12M
-            <br />
+           
             Series A!
           </h3>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/company"
-              className="inline-flex items-center !text-[#589c8e] justify-center rounded-full bg-[#3f5b4b] px-6 py-2 text-sm font-semibold text-white"
+              className="inline-flex items-center !text-[#45dcbe] justify-center rounded-full bg-[#3c7f68] px-6 py-2 text-sm font-semibold text-white"
             >
               Book a demo
             </Link>

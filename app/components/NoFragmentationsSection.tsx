@@ -4,7 +4,7 @@ export default function NoFragmentationsSection() {
   return (
     <section id="no-fragmentations" className="bg-[#fbf6ef] py-[4.5rem] lg:py-24">
       <div className="mx-auto w-full max-w-[1180px] px-6">
-        <h2 className="text-center text-[clamp(2rem,3.8vw,3rem)] font-bold text-[#2c2c2c]">
+        <h2 className="text-center lg:tracking-tighter md:tracking-tighter text-[clamp(2rem,3.8vw,3rem)] leading-8 font-bold text-[#2c2c2c]">
           One Solution, No Fragmentation
         </h2>
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -20,8 +20,8 @@ export default function NoFragmentationsSection() {
             </div>
             <p className="mt-4 font-semibold text-[#3b3b3b]">Before</p>
           </article>
-          <article className="rounded-[24px] border border-[#eadfce] bg-[#fbf6ef] p-5 text-center">
-            <div className="overflow-hidden rounded-[20px] bg-[#f3eadc]">
+          <article className="rounded-[24px] border border-[#eadfce] bg-[#fbf6ef]  text-center">
+            <div className="overflow-hidden relative rounded-[20px] bg-[#f3eadc]">
               <Image
                 src="/assets/images/image13.webp"
                 alt="Unified workflow after Cercli"
@@ -29,8 +29,9 @@ export default function NoFragmentationsSection() {
                 height={720}
                 className="h-auto w-full"
               />
+            <p className="mt-4 absolute bottom-0 left-1/2 transform -translate-x-1/2 font-semibold text-[#3b3b3b]">After</p>
+
             </div>
-            <p className="mt-4 font-semibold text-[#3b3b3b]">After</p>
           </article>
         </div>
       </div>

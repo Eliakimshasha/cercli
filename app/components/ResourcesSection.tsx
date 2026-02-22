@@ -30,7 +30,7 @@ export default function ResourcesSection() {
   return (
     <section id="resources" className="py-[4.5rem] lg:py-24">
       <div className="mx-auto w-full max-w-[1180px] px-6">
-        <h2 className="text-center font-[var(--font-display)] text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.05] tracking-[-0.02em]">
+        <h2 className="text-center font-semibold text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.05] tracking-[-0.02em]">
           Resources
         </h2>
         <div className="mt-10 grid gap-7 lg:grid-cols-3">

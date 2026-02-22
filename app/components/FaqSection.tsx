@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 type FaqItem = {
   question: string;
@@ -12,71 +17,94 @@ type FaqSectionProps = {
 };
 
 export default function FaqSection({ items }: FaqSectionProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(1);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
 
-  const handleToggle = (index: number) => {
-    setOpenIndex((current) => (current === index ? null : index));
-  };
+  const handleChange =
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   return (
     <section id="faqs" className="bg-white py-[4.5rem] lg:py-24">
       <div className="mx-auto w-full max-w-[1180px] px-6">
-        <div className="text-center mb-11">
-          <h2 className="font-[var(--font-display)] text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.05] tracking-[-0.02em]">
+        <div className="mb-11 text-center">
+          <h2 className="mx-auto max-w-3xl text-[clamp(2.4rem,4vw,3.8rem)] font-bold leading-[1.05] tracking-[-0.02em] max-[900px]:text-[2rem]">
             Global HR System: Frequently Asked Questions
           </h2>
         </div>
         <div className="mx-auto grid max-w-[820px] gap-5">
           {items.map((faq, index) => {
-            const isOpen = openIndex === index;
+            const panelId = `faq-panel-${index}`;
+            const isExpanded = expanded === panelId;
             return (
-              <div
+              <Accordion
                 key={faq.question}
-                className={`rounded-[1.5rem] border bg-white px-6 py-5 transition-shado ${
-                  isOpen
-                    ? "border-[#e2e2e2] shado-[0_18px_40px_-30px_rgba(20,20,20,0.25)]"
-                    : "border-[#efefef] shado-[0_12px_30px_-26px_rgba(20,20,20,0.18)]"
-                }`}
+                expanded={isExpanded}
+                onChange={handleChange(panelId)}
+                disableGutters
+                elevation={0}
+                square={false}
+                sx={{
+                  borderRadius: "1.5rem",
+                  border: "1px solid",
+                  borderColor: isExpanded ? "#e2e2e2" : "#efefef",
+                  backgroundColor: isExpanded ? "#d9efc5" : "#ffffff",
+                  boxShadow: isExpanded
+                    ? "0 18px 40px -30px rgba(20,20,20,0.25)"
+                    : "0 12px 30px -26px rgba(20,20,20,0.18)",
+                  "&::before": { display: "none" },
+                  "&.MuiAccordion-root": { margin: 0 },
+                }}
               >
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between gap-6 bg-transparent p-0 text-left text-[1.05rem] font-semibold text-[#222222]"
-                  onClick={() => handleToggle(index)}
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-panel-${index}`}
+                <AccordionSummary
+                  expandIcon={
+                    <ExpandMoreIcon
+                      sx={{
+                        fontSize: 20,
+                        color: isExpanded ? "#222222" : "#6d6d6d",
+                      }}
+                    />
+                  }
+                  aria-controls={`${panelId}-content`}
+                  id={`${panelId}-header`}
+                  sx={{
+                    px: 3,
+                    py: 2,
+                    "& .MuiAccordionSummary-content": {
+                      margin: 0,
+                      alignItems: "center",
+                    },
+                    "& .MuiAccordionSummary-expandIconWrapper": {
+                      transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 200ms ease",
+                    },
+                  }}
                 >
-                  <span>{faq.question}</span>
-                  <span
-                    className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-[#6d6d6d] transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-[#222222]" : ""
-                    }`}
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontSize: "1.05rem",
+                      fontWeight: 600,
+                      color: "#222222",
+                      lineHeight: 1.4,
+                    }}
                   >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </button>
-                {isOpen ? (
-                  <div
-                    id={`faq-panel-${index}`}
-                    className="mt-4 text-[#4f4f4f] leading-[1.7]"
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ px: 3, pb: 3, pt: 0 }}>
+                  <Typography
+                    component="p"
+                    sx={{
+                      color: "#4f4f4f",
+                      lineHeight: 1.7,
+                      fontSize: { xs: "0.875rem", md: "1rem" },
+                    }}
                   >
-                    <p>{faq.answer}</p>
-                  </div>
-                ) : null}
-              </div>
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
             );
           })}
         </div>

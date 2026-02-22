@@ -7,7 +7,7 @@ export default function EmpowerSection() {
         <svg
           viewBox="0 0 900 700"
           aria-hidden="true"
-          className="absolute -left-[22%] -top-[20%] h-[140%] w-[60%]"
+          className="absolute -left-[2%] max-[900px]:-left-[22%] -top-[20%] h-[140%] w-[60%]"
         >
           <path
             d="M40,60 C140,220 240,220 340,360 C420,470 420,560 360,660"
@@ -23,12 +23,12 @@ export default function EmpowerSection() {
             strokeWidth="2"
             strokeLinecap="round"
           />
-          <circle cx="240" cy="420" r="8" fill="#3f5b4b" />
+        
         </svg>
         <svg
           viewBox="0 0 900 700"
           aria-hidden="true"
-          className="absolute -right-[18%] -top-[10%] h-[120%] w-[55%]"
+          className="absolute max-[900px]:-right-[18%] -right-[2%] -top-[10%] h-[120%] w-[55%]"
         >
           <path
             d="M520,80 C700,130 720,220 620,280 C520,340 520,430 620,500"
