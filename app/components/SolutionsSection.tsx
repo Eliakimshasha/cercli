@@ -61,7 +61,7 @@ export default function SolutionsSection() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: isSmallScreen ? "top 4%" : "top -25%",
-          end: `+=${panels.length * 100}%`,
+          end: `+=${panels.length * 90}%`,
           scrub: true,
           pin: true,
           anticipatePin: 1,
