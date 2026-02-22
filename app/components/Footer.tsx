@@ -68,7 +68,7 @@ const BADGES = [
 export default function CercliFooter() {
   return (
     <>
-      <footer className="cercli-footer relative w-full min-h-[520px] overflow-hidden">
+      <footer className="relative w-full min-h-[520px] overflow-hidden">
         <Image
           src="/assets/images/image21.webp"
           alt=""
@@ -87,9 +87,9 @@ export default function CercliFooter() {
         />
 
         {/* ── All content sits above the overlay ── */}
-        <div className="relative z-10 max-w-[1280px] mx-auto px-10">
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 sm:px-8 lg:px-10">
           {/* ── Logo ── */}
-          <div className="pt-12 pb-10">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10">
             <a href="/" aria-label="Cercli">
               <Image
                 src="/assets/images/logo.png"
@@ -103,7 +103,7 @@ export default function CercliFooter() {
           </div>
 
           {/* ── 5-column link grid ── */}
-          <div className="grid grid-cols-5 gap-6 pb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 pb-12 lg:pb-16">
             {FOOTER_COLS.map((col) => (
               <div key={col.heading} className="flex flex-col gap-0">
                 {/* Column heading */}
@@ -128,10 +128,10 @@ export default function CercliFooter() {
           </div>
 
           {/* ── Bottom bar (sits on the desert image area) ── */}
-          <div className="flex items-end justify-between pb-10 mt-20">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 pb-10 mt-10 lg:mt-20">
             {/* Left: social icons + copyright */}
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-5 items-center lg:items-start">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
                 {[
                   { icon: <FaLinkedin size={34} />, label: "LinkedIn" },
                   { icon: <FaSquareXTwitter size={34} />, label: "X" },
@@ -148,12 +148,12 @@ export default function CercliFooter() {
                 ))}
               </div>
               <p className="text-[#3a3a3a] text-[13px] tracking-tight">
-                © 2025 Cercli. All rights reserved.
+                &copy; 2025 Cercli. All rights reserved.
               </p>
             </div>
 
             {/* Center: legal links stacked */}
-            <div className="flex flex-col gap-3 items-start">
+            <div className="flex flex-col gap-3 items-center lg:items-start">
               {LEGAL_LINKS.map((link) => (
                 <a
                   key={link}
@@ -167,7 +167,7 @@ export default function CercliFooter() {
             </div>
 
             {/* Right: badges */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
               {BADGES.map((badge) => (
                 <Image
                   key={badge.src}
@@ -175,7 +175,7 @@ export default function CercliFooter() {
                   alt={badge.alt}
                   width={54}
                   height={54}
-                  className="h-[54px] w-[54px] object-contain"
+                  className="h-[48px] w-[48px] sm:h-[54px] sm:w-[54px] object-contain"
                 />
               ))}
             </div>

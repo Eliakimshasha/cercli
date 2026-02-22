@@ -107,6 +107,7 @@ function NavTab({ label, hasDropdown }: NavTabProps) {
 export default function CercliHeader() {
   const [scrolled, setScrolled] = useState(false); // bg switches after 10 px
   const [hidden, setHidden] = useState(false); // slides away on scroll-down
+  const [mobileOpen, setMobileOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -133,12 +134,20 @@ export default function CercliHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const headerBg = mobileOpen ? "#bdb4ad" : scrolled ? "#ffffff" : "#fbf6ef";
+
   return (
     <>
-    
       <header
         style={{
-          backgroundColor: scrolled ? "#C9B99A" : "#ffffff",
+          backgroundColor: headerBg,
           boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.09)" : "none",
           transform: hidden ? "translateY(-110%)" : "translateY(0)",
         }}
@@ -147,33 +156,45 @@ export default function CercliHeader() {
                    duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
       >
         {/* ── Announcement bar ─────────────────────────────────────────── */}
-        <div
-          className="bg-[#1E1E1E] flex items-center justify-center gap-2.5
-                        px-6 py-2.5 text-[#d8d8d8] text-[13px] font-medium tracking-tight"
-        >
-          <span>
-            Cercli raises{" "}
-            <strong className="text-white font-semibold">$12M Series A</strong>{" "}
-            led by{" "}
-            <strong className="text-white font-semibold text-[12px] tracking-[0.07em]">
-              P↑CUS CAPITAL
-            </strong>
-          </span>
+        <div className="bg-[#1E1E1E] px-6 py-2.5 text-[#d8d8d8] text-[13px] font-medium tracking-tight">
+          <div className="hidden sm:flex items-center justify-center gap-2.5">
+            <span>
+              Cercli raises{" "}
+              <strong className="text-white font-semibold">$12M Series A</strong>{" "}
+              led by{" "}
+              <strong className="text-white font-semibold text-[12px] tracking-[0.07em]">
+                P↑CUS CAPITAL
+              </strong>
+            </span>
 
-          <button
-            className="inline-flex items-center gap-1.5
+            <button
+              className="inline-flex items-center gap-1.5
                              bg-[#A8C5A0] hover:bg-[#91b88a]
                              text-[#1a1a1a] font-semibold text-[12.5px]
                              rounded-full pl-3 pr-2.5 py-[3px]
                              border-none cursor-pointer transition-colors duration-200"
-          >
-            Read more
-            <ArrowIcon />
-          </button>
+            >
+              Read more
+              <ArrowIcon />
+            </button>
+          </div>
+          <div className="sm:hidden flex flex-col items-center gap-1 text-center">
+            <span>
+              Cercli raises{" "}
+              <strong className="text-white font-semibold">$12M Series A</strong>{" "}
+              led by
+            </span>
+            <div className="inline-flex items-center gap-2 text-white font-semibold text-[12px] tracking-[0.14em]">
+              <span>P↑CUS CAPITAL</span>
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#A8C5A0] text-[#1a1a1a]">
+                <ArrowIcon />
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* ── Nav row ──────────────────────────────────────────────────── */}
-        <div className="flex items-center justify-between px-8 py-2.5 gap-4">
+        <div className="flex items-center justify-between px-5 py-3 sm:px-8 sm:py-2.5 gap-4">
           {/* Logo */}
           <a href="/" aria-label="Cercli" className="flex-shrink-0">
             <Image
@@ -186,9 +207,50 @@ export default function CercliHeader() {
             />
           </a>
 
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#1a1a1a] shadow-[0_8px_20px_-14px_rgba(0,0,0,0.35)]"
+            onClick={() => setMobileOpen((current) => !current)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 3L13 13M13 3L3 13"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 5H15M3 9H15M3 13H15"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            )}
+          </button>
+
           {/* Nav pill */}
           <nav
-            className="flex items-center gap-0.5 flex-1 justify-center max-w-[640px]
+            className="hidden lg:flex items-center gap-0.5 flex-1 justify-center max-w-[640px]
                           bg-[#f0ede6] rounded-full px-2 py-1.5 border border-black/[0.07]"
           >
             {NAV_ITEMS.map((item) => (
@@ -201,7 +263,7 @@ export default function CercliHeader() {
           </nav>
 
           {/* CTA buttons */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
+          <div className="hidden lg:flex items-center gap-2.5 flex-shrink-0">
             <button
               className="bg-[#C9B99A] hover:bg-[#b8a585] hover:-translate-y-px
                                text-[#1a1a1a] font-semibold text-sm tracking-tight
@@ -223,7 +285,63 @@ export default function CercliHeader() {
         </div>
       </header>
 
-     
+      {mobileOpen ? (
+        <div className="lg:hidden fixed inset-0 z-40">
+          <div
+            className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="relative pt-[120px]">
+            <div className="mx-5 rounded-[28px] bg-white px-6 py-6 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.35)]">
+              <nav className="grid gap-4 text-center">
+                {NAV_ITEMS.map((item) => (
+                  <a
+                    key={item.label}
+                    href="#"
+                    className="flex items-center justify-center gap-2 py-1 text-[15px] font-medium text-[#2c2c2c]"
+                  >
+                    <span>{item.label}</span>
+                    {item.hasDropdown ? (
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M3 5L7 9L11 5"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : null}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </div>
+          <div className="fixed bottom-6 left-0 right-0 px-6">
+            <div className="grid gap-3">
+              <button
+                type="button"
+                className="w-full rounded-full bg-[#d9c3a0] py-3 text-sm font-semibold text-[#2b2b2b] shadow-[0_10px_20px_-14px_rgba(0,0,0,0.3)]"
+              >
+                Log in
+              </button>
+              <button
+                type="button"
+                className="w-full rounded-full bg-[#1a1a1a] py-3 text-sm font-semibold text-white shadow-[0_14px_24px_-16px_rgba(0,0,0,0.35)]"
+              >
+                Book a demo
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

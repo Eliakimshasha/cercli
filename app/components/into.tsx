@@ -32,7 +32,7 @@ const platformTags = ["Reports", "Role-Based Permissions", "Complete Visibility"
 export default function IntoSection() {
   return (
     <section className="bg-white py-16">
-      <div className="site-container">
+      <div className="mx-auto w-full max-w-[1180px] px-6">
         <p className="text-center text-sm text-[#5a5a5a]">
           Trusted by leading MENA businesses
         </p>
@@ -167,4 +167,3 @@ export default function IntoSection() {
     </section>
   );
 }
-

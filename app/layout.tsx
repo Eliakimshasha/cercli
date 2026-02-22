@@ -29,9 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${fraunces.variable} antialiased`}>
-        <div className="app-shell">
+    <html lang="en" className="h-full [color-scheme:light]">
+      <body
+        className={`${spaceGrotesk.variable} ${fraunces.variable} min-h-full bg-[#f6f1e7] text-[#1f1a14] font-[var(--font-sans)] antialiased`}
+      >
+        <div className="relative min-h-screen overflow-x-hidden before:fixed before:inset-0 before:-z-10 before:content-[''] before:bg-[radial-gradient(900px_600px_at_5%_-10%,rgba(255,245,224,0.8),transparent_60%),radial-gradient(800px_600px_at_90%_10%,rgba(199,228,221,0.6),transparent_55%),linear-gradient(180deg,rgba(255,250,240,0.6)_0%,rgba(246,241,231,0.9)_100%)]">
           <Header />
           <main>{children}</main>
           <Footer />
