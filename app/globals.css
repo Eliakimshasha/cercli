@@ -8,3 +8,14 @@
     transform: translateX(-50%);
   }
 }
+
+/* Hide scrollbars globally */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

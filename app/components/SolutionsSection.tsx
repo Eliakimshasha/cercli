@@ -45,42 +45,56 @@ export default function SolutionsSection() {
         sectionRef.current || undefined,
       );
 
-      gsap.set(panels, {
-        autoAlpha: 0,
-        y: 40,
-        pointerEvents: "none",
+      // Card 0 sits in place at the bottom of the stack.
+      // Cards 1..n start fully below the container, waiting to slide up on top.
+      panels.forEach((panel, i) => {
+        gsap.set(panel, {
+          y: i === 0 ? 0 : "100%",
+          scale: 1,
+          zIndex: i + 1, // higher index = on top when fully slid up
+          transformOrigin: "center top",
+          willChange: "transform",
+        });
       });
-
-      if (panels[0]) {
-        gsap.set(panels[0], { autoAlpha: 1, y: 0, pointerEvents: "auto" });
-      }
-
-      const isSmallScreen = window.innerWidth < 1024;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: isSmallScreen ? "top 4%" : "top -25%",
-          end: `+=${panels.length * 90}%`,
-          scrub: true,
+          start: "top top",
+          end: `+=${panels.length * 100}vh`,
+          scrub: 0.8,
           pin: true,
           anticipatePin: 1,
-          pinReparent: isSmallScreen, // ← ADD THIS
-          invalidateOnRefresh: true, // ← ADD THIS
+          invalidateOnRefresh: true,
         },
       });
 
-      panels.forEach((panel, index) => {
+      // Each scroll step: slide panel i up from below,
+      // and gently push all panels below it back (scale + slight y offset)
+      panels.forEach((panel, i) => {
+        if (i === 0) return;
+
+        const position = i - 1; // stagger each step on the timeline
+
+        // Incoming card slides up from below
         tl.to(
           panel,
-          { autoAlpha: 1, y: 0, pointerEvents: "auto", duration: 0.4 },
-          index,
+          { y: 0, ease: "none", duration: 1 },
+          position,
         );
-        if (index > 0) {
+
+        // All cards already in place scale back slightly to show depth
+        for (let j = 0; j < i; j++) {
+          const depth = i - j; // how many cards below the top
           tl.to(
-            panels[index - 1],
-            { autoAlpha: 0, y: -20, pointerEvents: "none", duration: 0.4 },
-            index,
+            panels[j],
+            {
+              scale: 1 - depth * 0.04,
+              y: -(depth * 10), // peek above by a few px
+              ease: "none",
+              duration: 1,
+            },
+            position,
           );
         }
       });
@@ -95,11 +109,19 @@ export default function SolutionsSection() {
       className="bg-white py-16 lg:py-24"
     >
       <div className="mx-auto w-full max-w-[1180px] px-6">
-        <h2 className="mx-auto max-w-3xl text-center text-[2.4rem] max-[900px]:text-[1.7rem] max-[900px]:mb-24 font-bold leading-[1.05] text-[#2c2c2c]">
+        <h2 className="mx-auto max-w-3xl text-center text-[2.4rem] max-[900px]:text-[1.7rem] max-[900px]:mb-10 font-bold leading-[1.05] text-[#2c2c2c]">
           Solving People Management Challenges for MENA
         </h2>
 
-        <div className="relative mt-14 min-h-[520px] sm:min-h-[560px] lg:min-h-[600px]">
+        {/*
+          overflow-hidden clips cards coming up from below.
+          Cards are position:absolute and stacked via z-index.
+          The container height defines the "window" you see.
+        */}
+        <div
+          className="relative mt-14 overflow-hidden rounded-[32px]"
+          style={{ minHeight: "clamp(480px, 55vh, 620px)" }}
+        >
           {solutions.map((solution) => (
             <article
               key={solution.title}
@@ -113,7 +135,7 @@ export default function SolutionsSection() {
                   {solution.description}
                 </p>
               </div>
-              <div className="rounded-[28px]  sm:p-8">
+              <div className="rounded-[28px] sm:p-8">
                 <div className="overflow-hidden rounded-[22px] bg-white/70">
                   <Image
                     src={solution.image}

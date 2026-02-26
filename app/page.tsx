@@ -7,11 +7,11 @@ import IntegrationsSection from "./components/IntegrationsSection";
 import IntoSection from "./components/into";
 import NoFragmentationsSection from "./components/NoFragmentationsSection";
 import ResourcesSection from "./components/ResourcesSection";
-import ServicesSection from "./components/ServicesSection";
 import SolutionsSection from "./components/SolutionsSection";
 import StoriesSection from "./components/StoriesSection";
 import SwitchSection from "./components/SwitchSection";
 import WhyUsSection from "./components/WhyUsSection";
+import RotateCard from "./components/RotateCard";
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
       <HeroSection />
       <IntoSection />
       <CountingsSection />
-      <SolutionsSection /> 
+      <SolutionsSection />
       <WhyUsSection />
       <NoFragmentationsSection />
       <IntegrationsSection />
@@ -28,6 +28,7 @@ export default function Home() {
       <ResourcesSection />
       <FaqsSection />
       <EmpowerSection />
+      <RotateCard />
     </>
   );
 }
