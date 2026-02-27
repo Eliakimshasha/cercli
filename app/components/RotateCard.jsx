@@ -9,6 +9,8 @@ import imgThree from "../../public/assets/images/three.webp";
 import imgFour from "../../public/assets/images/four.webp";
 import imgFive from "../../public/assets/images/five.webp";
 import imgSeven from "../../public/assets/images/seven.webp";
+import imgEight from "../../public/assets/images/seven.webp";
+import imgNine from "../../public/assets/images/seven.webp";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
@@ -30,6 +32,8 @@ function RotateCard() {
   const smallImg5 = useRef(null);
 
   const smallImg7 = useRef(null);
+  const smallImg8 = useRef(null);
+  const smallImg9 = useRef(null);
   const textContent = useRef(null);
 
   useGSAP(
@@ -37,26 +41,6 @@ function RotateCard() {
       if (!mainCardRef.current) return;
 
       gsap.set(textContent.current, { opacity: "0" });
-
-      // Set initial state for small images - centered, same size as main card, hidden
-      gsap.set(
-        [
-          smallImg1.current,
-          smallImg2.current,
-          smallImg3.current,
-          smallImg4.current,
-          smallImg5.current,
-
-          smallImg7.current,
-        ],
-        {
-          width: "300px",
-          height: "300px",
-          top: "0",
-          left: "0",
-          opacity: 0, // Hidden initially
-        },
-      );
 
       // Create separate timelines for mobile and desktop
       let mm = gsap.matchMedia();
@@ -67,7 +51,52 @@ function RotateCard() {
           isDesktop: "(min-width: 769px)",
         },
         (context) => {
-          let { isMobile, isDesktop } = context.conditions;
+          let { isMobile } = context.conditions;
+
+          const smallInitialDesktop = {
+            width: "300px",
+            height: "300px",
+            top: "0",
+            left: "0",
+            opacity: 0,
+          };
+          const smallInitialMobile = { ...smallInitialDesktop };
+          const smallInitial = isMobile ? smallInitialMobile : smallInitialDesktop;
+
+          // Set initial state for small images - centered, same size as main card, hidden
+          gsap.set(
+            [
+              smallImg1.current,
+              smallImg2.current,
+              smallImg3.current,
+              smallImg4.current,
+              smallImg5.current,
+              smallImg7.current,
+              smallImg8.current,
+              smallImg9.current,
+            ],
+            smallInitial,
+          );
+
+          const smallFinalDesktop = {
+            img1: { width: "130px", height: "130px", top: "-30px", left: "5%", zIndex: 30 },
+            img2: { width: "200px", height: "200px", top: "70px", left: "-30%", zIndex: 30 },
+            img3: { width: "130px", height: "130px", top: "80%", left: "3%", zIndex: 30 },
+            img4: { width: "170px", height: "130px", top: "30%", left: "95%", zIndex: 40 },
+            img5: { width: "150px", height: "200px", top: "-70px", left: "72%", zIndex: 30 },
+            img7: { width: "100px", height: "100px", top: "0px", left: "120%", zIndex: 42 },
+            img8: { width: "100px", height: "100px", top: "110%", left: "-20%", zIndex: 42 },
+            img9: { width: "200px", height: "140px", top: "20px", left: "-60%", zIndex: 42 },
+          };
+          const smallFinalMobile ={
+            img1: { width: "100px", height: "100px", top: "-100px", left: "5%" },
+            img2: { width: "100px", height: "100px", top: "30px", left: "13%" },
+            img3: { width: "100px", height: "100px", top: "-60px", left: "33%" },
+            img4: { width: "100px", height: "100px", top: "80%", left: "70%" },
+            img5: { width: "100px", height: "100px", top: "-20px", left: "72%" },
+            img7: { width: "100px", height: "100px", top: "100%", left: "15%" },
+          };
+          const smallFinal = isMobile ? smallFinalMobile : smallFinalDesktop;
 
           const finalCardSize = mainCardRef.current.getBoundingClientRect();
           gsap.set(mainCardRef.current, {
@@ -144,6 +173,8 @@ function RotateCard() {
               smallImg4.current,
               smallImg5.current,
               smallImg7.current,
+                smallImg8.current,
+                smallImg9.current,
             ],
             {
               opacity: 1,
@@ -157,10 +188,10 @@ function RotateCard() {
           timeline.to(
             cardRef2.current,
             {
-              width: "100px",
-              height: "100px",
-              top: "120%",
-              left: "60%",
+              width: isMobile?"100px":"130px",
+              height: isMobile?"100px":"130px",
+              top: isMobile? "120%":"100%",
+              left: isMobile ? "60%" : "80%",
               x: "-50%",
               y: "-50%",
               duration: 1,
@@ -168,78 +199,40 @@ function RotateCard() {
             "<",
           );
 
-          timeline.to(
-            textContent.current,
-
-            {
-              opacity: "1",
-              duration: 1,
-            },
-            "-=1.5",
-          );
+          
 
           // Small image 1 - top left (FIXED POSITION)
           timeline.to(
             smallImg1.current,
-            {
-              width: "100px",
-              height: "100px",
-              top: "-100px",
-              left: "5%",
-              duration: 1,
-            },
+            { ...smallFinal.img1, duration: 1 },
             "<",
           );
 
           // Small image 2 - top right (FIXED POSITION)
           timeline.to(
             smallImg2.current,
-            {
-              width: "100px",
-              height: "100px",
-              top: "30px",
-              left: "13%",
-              duration: 1,
-            },
+            { ...smallFinal.img2, duration: 1 },
             "<",
           );
 
           // Small image 3 - bottom left (FIXED POSITION)
           timeline.to(
             smallImg3.current,
-            {
-              width: "100px",
-              height: "100px",
-              top: "-60px",
-              left: "33%",
-              duration: 1,
-            },
+            { ...smallFinal.img3, duration: 1 },
             "<",
           );
 
           // Small image 4 - random position
           timeline.to(
             smallImg4.current,
-            {
-              width: "100px",
-              height: "100px",
-              top: "80%",
-              left: "70%",
-              duration: 1,
-            },
+            { ...smallFinal.img4, duration: 1 },
             "<",
           );
 
           // Small image 5 - top right
           timeline.to(
             smallImg5.current,
-            {
-              width: "100px",
-              height: "100px",
-              top: "-20px",
-              left: "72%",
-              duration: 1,
-            },
+            { ...smallFinal.img5, duration: 1 },
             "<",
           );
 
@@ -248,13 +241,19 @@ function RotateCard() {
           // Small image 7 - bottom position (mirrors image 3)
           timeline.to(
             smallImg7.current,
-            {
-              width: "100px",
-              height: "100px",
-              top: "100%",
-              left: "15%",
-              duration: 1,
-            },
+            { ...smallFinal.img7, duration: 1 },
+            "<",
+          );
+
+           timeline.to(
+            smallImg8.current,
+            { ...smallFinal.img8, duration: 1 },
+            "<",
+          );
+
+           timeline.to(
+            smallImg9.current,
+            { ...smallFinal.img9, duration: 1 },
             "<",
           );
 
@@ -296,7 +295,7 @@ function RotateCard() {
         {/* 7 Small Images - Start centered behind main card (z-30) */}
         <div
           ref={smallImg1}
-          className="absolute inset-0 z-30"
+          className="absolute inset-0 "
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
@@ -309,7 +308,7 @@ function RotateCard() {
 
         <div
           ref={smallImg2}
-          className="absolute inset-0 z-33"
+          className="absolute inset-0 "
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
@@ -322,7 +321,7 @@ function RotateCard() {
 
         <div
           ref={smallImg3}
-          className="absolute inset-0 z-34"
+          className="absolute inset-0"
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
@@ -335,7 +334,7 @@ function RotateCard() {
 
         <div
           ref={smallImg4}
-          className="absolute inset-0 z-32"
+          className="absolute inset-0 "
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
@@ -348,7 +347,7 @@ function RotateCard() {
 
         <div
           ref={smallImg5}
-          className="absolute inset-0 z-35"
+          className="absolute inset-0 "
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
@@ -361,12 +360,38 @@ function RotateCard() {
 
         <div
           ref={smallImg7}
-          className="absolute inset-0 z-40"
+          className="absolute inset-0 "
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
             src={imgSeven}
             alt="Small 7"
+            fill
+            className="object-cover rounded-xs "
+          />
+        </div>
+
+         <div
+          ref={smallImg9}
+          className="absolute inset-0 "
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          <Image
+            src={imgNine}
+            alt="Small 9"
+            fill
+            className="object-cover rounded-xs "
+          />
+        </div>
+
+         <div
+          ref={smallImg8}
+          className="absolute inset-0 "
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          <Image
+            src={imgEight}
+            alt="Small 8"
             fill
             className="object-cover rounded-xs "
           />
@@ -383,7 +408,7 @@ function RotateCard() {
             alt="Card 1"
             width={1400}
             height={1000}
-            className="w-full h-auto object-contain sm:h-full sm:w-full sm:object-cover"
+            className="w-full h-full object-contain sm:h-full sm:w-full sm:object-cover"
           />
         </div>
 
@@ -405,13 +430,13 @@ function RotateCard() {
 
       <div
         ref={textContent}
-        className="absolute top-1/2 transform -translate-y-1/2 mt-14 w-[90%] mx-auto text-center text-xs lg:text-sm z-50"
+        className="absolute top-1/2 transform -translate-y-1/2 mt-14 lg:mt-9 w-[90%] mx-auto text-center text-xs lg:text-lg z-50"
       >
-        <p className="lg:max-w-105 text-center mx-auto lg:mt-9">
+        <p className="lg:max-w-105 text-center text-[#4b5847] mx-auto lg:mt-9">
           Cercli unifies HR, payroll, and compliance for MENA teams, with
           global-ready contractor support and real-time reporting.
         </p>
-        <button className="bg-white rounded-xs mt-1 py-1 px-3 text-center text-black/50">
+        <button className="bg-black rounded-xs mt-1 py-1 lg:py-2 px-3 text-center text-sm text-white">
           BOOK A DEMO
         </button>
       </div>
