@@ -92,9 +92,9 @@ function RotateCard() {
             img1: { width: "100px", height: "100px", top: "-100px", left: "5%" },
             img2: { width: "100px", height: "100px", top: "30px", left: "13%" },
             img3: { width: "100px", height: "100px", top: "-60px", left: "33%" },
-            img4: { width: "100px", height: "100px", top: "80%", left: "70%" },
+            img4: { width: "100px", height: "100px", top: "80%", left: "70%", zIndex: 40 },
             img5: { width: "100px", height: "100px", top: "-20px", left: "72%" },
-            img7: { width: "100px", height: "100px", top: "100%", left: "15%" },
+            img7: { width: "100px", height: "100px", top: "120%", left: "15%" },
           };
           const smallFinal = isMobile ? smallFinalMobile : smallFinalDesktop;
 
