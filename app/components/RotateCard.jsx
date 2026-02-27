@@ -36,10 +36,7 @@ function RotateCard() {
     () => {
       if (!mainCardRef.current) return;
 
-      const finalCardSize = mainCardRef.current.getBoundingClientRect();
-
       gsap.set(textContent.current, { opacity: "0" });
-      gsap.set(mainCardRef.current, { width: "90vw", height: "90vh" });
 
       // Set initial state for small images - centered, same size as main card, hidden
       gsap.set(
@@ -71,6 +68,12 @@ function RotateCard() {
         },
         (context) => {
           let { isMobile, isDesktop } = context.conditions;
+
+          const finalCardSize = mainCardRef.current.getBoundingClientRect();
+          gsap.set(mainCardRef.current, {
+            width: isMobile ? "88vw" : "70vw",
+            height: isMobile ? "55vh" : "80vh",
+          });
 
           const footer = document.querySelector("footer");
           const animationScroll = 3000;
@@ -376,6 +379,7 @@ function RotateCard() {
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image src={cardImage} alt="Card 1" fill className="object-cover " />
+          
         </div>
 
         {/* Second Card */}
@@ -397,7 +401,7 @@ function RotateCard() {
         ref={textContent}
         className="absolute top-1/2 transform -translate-y-1/2 mt-14 w-[90%] mx-auto text-center text-xs lg:text-sm z-50"
       >
-        <p className="lg:max-w-[420px] text-center mx-auto lg:mt-9">
+        <p className="lg:max-w-105 text-center mx-auto lg:mt-9">
           Cercli unifies HR, payroll, and compliance for MENA teams, with
           global-ready contractor support and real-time reporting.
         </p>
