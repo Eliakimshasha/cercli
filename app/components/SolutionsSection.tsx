@@ -184,8 +184,9 @@ export default function SolutionsSection() {
   );
 
   return (
-    <section ref={sectionRef} id="solutions" className="bg-red-400 p">
-      <div className="lg:pb-24 bg-gray-500  pt-0">
+    <section ref={sectionRef} id="solutions" className="">
+      <div className="lg:pb-24  pt-0">
+        
         <div ref={pinRef} className="h-screen">
           <div className="mx-auto w-full lg:max-w-295 px-6">
             <h2
