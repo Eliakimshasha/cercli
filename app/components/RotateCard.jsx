@@ -83,7 +83,6 @@ function RotateCard() {
               : footer.offsetHeight
             : window.innerHeight;
           const totalScroll = animationScroll + overlapDistance;
-          const animationEndProgress = animationScroll / totalScroll;
           let pinSpacer = null;
           let spacerPadding = null;
 
@@ -99,16 +98,6 @@ function RotateCard() {
                 if (pinSpacer) {
                   spacerPadding =
                     window.getComputedStyle(pinSpacer).paddingBottom;
-                }
-              },
-              onUpdate: (self) => {
-                if (!pinSpacer || spacerPadding == null) return;
-                if (self.progress < animationEndProgress) {
-                  if (pinSpacer.style.paddingBottom !== spacerPadding) {
-                    pinSpacer.style.paddingBottom = spacerPadding;
-                  }
-                } else if (pinSpacer.style.paddingBottom !== "0px") {
-                  pinSpacer.style.paddingBottom = "0px";
                 }
               },
             },
@@ -268,6 +257,13 @@ function RotateCard() {
             },
             "<",
           );
+
+          // Allow the footer to overlap only after animations finish
+          timeline.call(() => {
+            if (pinSpacer) {
+              pinSpacer.style.paddingBottom = "0px";
+            }
+          });
           const animationDuration = timeline.duration();
           const holdDuration =
             animationDuration * (overlapDistance / animationScroll);
@@ -287,7 +283,7 @@ function RotateCard() {
   return (
     <section
       ref={sectionRef}
-      className="h-screen bg-red-900 flex items-center justify-center relative perspective-distant"
+      className="h-screen flex items-center justify-center relative perspective-distant"
     >
       <div
         // this should be the first animation
@@ -379,23 +375,30 @@ function RotateCard() {
         {/* First Card */}
         <div
           ref={cardRef}
-          className="absolute inset-0 z-40 w-full h-full backface-hidden"
+          className="absolute inset-0 z-40 w-full h-full backface-hidden flex items-center justify-center"
           style={{ transformStyle: "preserve-3d" }}
         >
-          <Image src={cardImage} alt="Card 1" fill className="object-cover " />
+          <Image
+            src={cardImage}
+            alt="Card 1"
+            width={1400}
+            height={1000}
+            className="w-full h-auto object-contain sm:h-full sm:w-full sm:object-cover"
+          />
         </div>
 
         {/* Second Card */}
         <div
           ref={cardRef2}
-          className="absolute inset-0 z-40 w-full h-full backface-hidden"
+          className="absolute inset-0 z-40 w-full h-full backface-hidden flex items-center justify-center"
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
             src={cardImage2}
             alt="Card 2"
-            fill
-            className="object-cover  "
+            width={1400}
+            height={1000}
+            className="w-full h-auto object-contain sm:h-full sm:w-full sm:object-cover"
           />
         </div>
       </div>
