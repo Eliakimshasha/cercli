@@ -35,6 +35,33 @@ const solutions = [
   },
 ];
 
+// How the timeline works:
+// Each "slot" = transitionDuration + holdDuration (time units)
+// e.g. 1 + 3 = 4 units per panel
+// GSAP stretches this timeline across the total scroll distance:
+//   panels.length * scrollPerPanelVh  →  4 * 150vh = 600vh total pinned scroll
+// So each panel occupies ~150vh of scroll: ~25vh to animate in, ~100vh held, ~25vh to animate out.
+// To make transitions slower → increase scrollPerPanelVh
+// To make panels stay longer → increase holdDuration
+
+const SETTINGS = {
+  // --- Scroll pacing ---
+  scrollPerPanelVh: 300,   // vh of scroll distance dedicated to each panel
+  scrub: 1,                // smoothing lag on scrub (seconds); 0 = instant
+
+  // --- Header ---
+  headerFade: 0.5,         // how quickly the heading fades out (timeline units)
+  headerShift: -48,        // px the panels lift up as header disappears
+
+  // --- Panel transitions ---
+  transitionDuration: 1,   // time units for fade-in / fade-out animation
+  holdDuration: 3,         // time units each panel stays fully visible
+
+  // --- Panel motion ---
+  panelOffsetIn: 40,       // px panels slide up from on entry
+  panelOffsetOut: -20,     // px panels slide to on exit
+};
+
 export default function SolutionsSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLHeadingElement | null>(null);
@@ -48,57 +75,108 @@ export default function SolutionsSection() {
 
       if (!panels.length) return;
 
-      gsap.set(panels, {
-        opacity: 0,
-        y: 40,
-        zIndex: 0,
-        transformOrigin: "center center",
-        willChange: "transform, opacity",
-      });
-      gsap.set(panels[0], { opacity: 1, y: 0, zIndex: 1 });
+      const mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: `+=${panels.length * 80}vh`,
-          scrub: true,
-          pin: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      if (headerRef.current) {
-        tl.to(headerRef.current, { opacity: 0, duration: 0.4 }, 0);
-      }
-
-      // Lift panels into the header space as it fades out
-      tl.to(
-        panels,
+      mm.add(
         {
-          y: -48,
-          duration: 0.4,
-          ease: "none",
+          isMobile: "(max-width: 768px)",
+          isDesktop: "(min-width: 769px)",
         },
-        0,
+        () => {
+          const {
+            scrollPerPanelVh,
+            scrub,
+            headerFade,
+            headerShift,
+            transitionDuration,
+            holdDuration,
+            panelOffsetIn,
+            panelOffsetOut,
+          } = SETTINGS;
+
+          // Each panel occupies this many timeline-units
+          const slotSize = transitionDuration + holdDuration;
+
+          // Initial state: all panels hidden, first panel visible
+          gsap.set(panels, {
+            opacity: 0,
+            y: panelOffsetIn,
+            zIndex: 0,
+            transformOrigin: "center center",
+            willChange: "transform, opacity",
+          });
+          gsap.set(panels[0], { opacity: 1, y: 0, zIndex: 1 });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              // Total scroll = number of panels × vh per panel
+              end: `+=${panels.length * scrollPerPanelVh}vh`,
+              scrub,
+              pin: true,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          // Fade out the heading at the very start
+          if (headerRef.current) {
+            tl.to(
+              headerRef.current,
+              { opacity: 0, duration: headerFade },
+              0,
+            );
+          }
+
+          // Lift all panels up as the heading disappears
+          tl.to(
+            panels,
+            { y: headerShift, duration: headerFade, ease: "none" },
+            0,
+          );
+
+          // Sequence each panel with a hold gap between transitions
+          panels.forEach((panel, index) => {
+            // Start time for this panel's entrance on the timeline
+            // index 0 → position 0, index 1 → position slotSize, etc.
+            const startAt = index * slotSize;
+
+            // Animate panel in
+            tl.to(
+              panel,
+              {
+                opacity: 1,
+                y: headerShift, // keep the lifted offset consistent
+                zIndex: 2,
+                duration: transitionDuration,
+                ease: "power2.out",
+              },
+              startAt,
+            );
+
+            // Animate the previous panel out at the same time
+            if (index > 0) {
+              tl.to(
+                panels[index - 1],
+                {
+                  opacity: 0,
+                  y: panelOffsetOut + headerShift,
+                  zIndex: 0,
+                  duration: 3,
+                  ease: "power2.in",
+                },
+                startAt,
+              );
+            }
+
+            // After transitionDuration the panel is fully visible.
+            // holdDuration of "nothing" passes before the next panel starts.
+            // GSAP naturally holds because the next startAt is slotSize away.
+          });
+        },
       );
 
-      panels.forEach((panel, index) => {
-        const position = index;
-        tl.to(
-          panel,
-          { opacity: 1, y: 0, zIndex: 2, duration: 0.6 },
-          position,
-        );
-
-        if (index > 0) {
-          tl.to(
-            panels[index - 1],
-            { opacity: 0, y: -20, zIndex: 0, duration: 0.6 },
-            position,
-          );
-        }
-      });
+      return () => mm.revert();
     },
     { scope: sectionRef },
   );
@@ -112,21 +190,21 @@ export default function SolutionsSection() {
       <div className="mx-auto w-full lg:max-w-295 px-6">
         <h2
           ref={headerRef}
-          className="mx-auto max-w-3xl text-center text-[2.4rem] max-[900px]:text-[1.7rem] max-[900px]:mb-10 font-bold leading-[1.05] text-[#2c2c2c]"
+          className="mx-auto max-w-3xl lg:mb-9 text-center text-[2.4rem] max-[900px]:text-[1.7rem] max-[900px]:mb-10 font-bold leading-[1.05] text-[#2c2c2c]"
         >
           Solving People Management Challenges for MENA
         </h2>
 
         <div
-          className="relative  overflow-hidden "
+          className="relative overflow-hidden"
           style={{ minHeight: "clamp(520px, 65vh, 720px)" }}
         >
           {solutions.map((solution) => (
             <article
               key={solution.title}
-              className="solution-panel  absolute inset-0 grid items-center gap-8  bg-white max-[900px]:flex max-[900px]:flex-col-reverse lg:grid-cols-[1.05fr_1fr]"
+              className="solution-panel absolute inset-0 grid items-center gap-8 bg-white max-[900px]:flex max-[900px]:flex-col-reverse lg:grid-cols-[1.05fr_1fr]"
             >
-              <div className=" lg:px-8">
+              <div className="lg:px-8">
                 <h3 className="text-[clamp(1.6rem,2.8vw,2.2rem)] font-bold text-[#2c2c2c]">
                   {solution.title}
                 </h3>
@@ -134,7 +212,7 @@ export default function SolutionsSection() {
                   {solution.description}
                 </p>
               </div>
-              <div className=" lg:p-8">
+              <div className="lg:p-8">
                 <div className="overflow-hidden">
                   <Image
                     src={solution.image}
