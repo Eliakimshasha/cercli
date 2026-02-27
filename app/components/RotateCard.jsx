@@ -61,7 +61,9 @@ function RotateCard() {
             opacity: 0,
           };
           const smallInitialMobile = { ...smallInitialDesktop };
-          const smallInitial = isMobile ? smallInitialMobile : smallInitialDesktop;
+          const smallInitial = isMobile
+            ? smallInitialMobile
+            : smallInitialDesktop;
 
           // Set initial state for small images - centered, same size as main card, hidden
           gsap.set(
@@ -79,21 +81,90 @@ function RotateCard() {
           );
 
           const smallFinalDesktop = {
-            img1: { width: "130px", height: "130px", top: "-30px", left: "5%", zIndex: 30 },
-            img2: { width: "200px", height: "200px", top: "70px", left: "-33%", zIndex: 30 },
-            img3: { width: "130px", height: "130px", top: "80%", left: "3%", zIndex: 30 },
-            img4: { width: "170px", height: "130px", top: "30%", left: "95%", zIndex: 40 },
-            img5: { width: "150px", height: "200px", top: "-70px", left: "72%", zIndex: 30 },
-            img7: { width: "100px", height: "100px", top: "0px", left: "120%", zIndex: 42 },
-            img8: { width: "100px", height: "100px", top: "110%", left: "-20%", zIndex: 42 },
-            img9: { width: "200px", height: "140px", top: "20px", left: "-60%", zIndex: 42 },
+            img1: {
+              width: "130px",
+              height: "130px",
+              top: "-30px",
+              left: "5%",
+              zIndex: 30,
+            },
+            img2: {
+              width: "200px",
+              height: "200px",
+              top: "70px",
+              left: "-33%",
+              zIndex: 30,
+            },
+            img3: {
+              width: "130px",
+              height: "130px",
+              top: "80%",
+              left: "3%",
+              zIndex: 30,
+            },
+            img4: {
+              width: "170px",
+              height: "130px",
+              top: "30%",
+              left: "95%",
+              zIndex: 40,
+            },
+            img5: {
+              width: "150px",
+              height: "200px",
+              top: "-70px",
+              left: "72%",
+              zIndex: 30,
+            },
+            img7: {
+              width: "100px",
+              height: "100px",
+              top: "0px",
+              left: "120%",
+              zIndex: 42,
+            },
+            img8: {
+              width: "100px",
+              height: "100px",
+              top: "110%",
+              left: "-20%",
+              zIndex: 42,
+            },
+            img9: {
+              width: "200px",
+              height: "140px",
+              top: "20px",
+              left: "-60%",
+              zIndex: 42,
+            },
           };
-          const smallFinalMobile ={
-            img1: { width: "100px", height: "100px", top: "-100px", left: "5%" },
+          const smallFinalMobile = {
+            img1: {
+              width: "100px",
+              height: "100px",
+              top: "-100px",
+              left: "5%",
+            },
             img2: { width: "100px", height: "100px", top: "30px", left: "13%" },
-            img3: { width: "100px", height: "100px", top: "-60px", left: "33%" },
-            img4: { width: "100px", height: "100px", top: "80%", left: "70%", zIndex: 40 },
-            img5: { width: "100px", height: "100px", top: "-20px", left: "72%" },
+            img3: {
+              width: "100px",
+              height: "100px",
+              top: "-60px",
+              left: "33%",
+            },
+            img4: {
+              width: "100px",
+              height: "100px",
+              top: "80%",
+              left: "70%",
+              zIndex: 40,
+            },
+            img5: {
+              width: "100px",
+              height: "100px",
+              top: "-20px",
+              left: "72%",
+            },
             img7: { width: "100px", height: "100px", top: "120%", left: "15%" },
           };
           const smallFinal = isMobile ? smallFinalMobile : smallFinalDesktop;
@@ -105,7 +176,7 @@ function RotateCard() {
           });
 
           const footer = document.querySelector("footer");
-          const animationScroll = 3000;
+          const animationScroll = 1000;
           const overlapDistance = footer
             ? isMobile
               ? footer.offsetHeight * 0.5
@@ -173,8 +244,8 @@ function RotateCard() {
               smallImg4.current,
               smallImg5.current,
               smallImg7.current,
-                smallImg8.current,
-                smallImg9.current,
+              smallImg8.current,
+              smallImg9.current,
             ],
             {
               opacity: 1,
@@ -188,9 +259,9 @@ function RotateCard() {
           timeline.to(
             cardRef2.current,
             {
-              width: isMobile?"100px":"130px",
-              height: isMobile?"100px":"130px",
-              top: isMobile? "120%":"100%",
+              width: isMobile ? "100px" : "130px",
+              height: isMobile ? "100px" : "130px",
+              top: isMobile ? "120%" : "100%",
               left: isMobile ? "60%" : "80%",
               x: "-50%",
               y: "-50%",
@@ -253,13 +324,13 @@ function RotateCard() {
             "<",
           );
 
-           timeline.to(
+          timeline.to(
             smallImg8.current,
             { ...smallFinal.img8, duration: 1 },
             "<",
           );
 
-           timeline.to(
+          timeline.to(
             smallImg9.current,
             { ...smallFinal.img9, duration: 1 },
             "<",
@@ -271,10 +342,10 @@ function RotateCard() {
               pinSpacer.style.paddingBottom = "0px";
             }
           });
-          const animationDuration = timeline.duration();
-          const holdDuration =
-            animationDuration * (overlapDistance / animationScroll);
-          timeline.to({}, { duration: holdDuration });
+        //   const animationDuration = timeline.duration();
+        //   const holdDuration =
+        //     animationDuration * (overlapDistance / animationScroll);
+        //   timeline.to({}, { duration: holdDuration });
 
           return () => {
             if (pinSpacer && spacerPadding != null) {
@@ -379,7 +450,7 @@ function RotateCard() {
           />
         </div>
 
-         <div
+        <div
           ref={smallImg9}
           className="absolute inset-0 max-[900px]:hidden"
           style={{ transformStyle: "preserve-3d" }}
@@ -392,7 +463,7 @@ function RotateCard() {
           />
         </div>
 
-         <div
+        <div
           ref={smallImg8}
           className="absolute inset-0 max-[900px]:hidden"
           style={{ transformStyle: "preserve-3d" }}
