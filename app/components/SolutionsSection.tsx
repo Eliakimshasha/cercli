@@ -186,7 +186,7 @@ export default function SolutionsSection() {
     <section
       ref={sectionRef}
       id="solutions"
-      className="bg-white  lg:pb-24 lg:pt-0"
+      className="bg-sky-300 p-2 h-screen  lg:pb-24 lg:pt-0"
     >
       <div className="mx-auto bg-amber-400 w-full lg:max-w-295 px-6">
         <h2
