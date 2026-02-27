@@ -199,7 +199,15 @@ function RotateCard() {
             "<",
           );
 
-          
+          timeline.to(
+            textContent.current,
+
+            {
+              opacity: "1",
+              duration: 1,
+            },
+            "-=1.5",
+          );
 
           // Small image 1 - top left (FIXED POSITION)
           timeline.to(
