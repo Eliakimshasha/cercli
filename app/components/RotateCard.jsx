@@ -381,7 +381,7 @@ function RotateCard() {
 
          <div
           ref={smallImg9}
-          className="absolute inset-0 "
+          className="absolute inset-0 max-[900px]:hidden"
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
@@ -394,7 +394,7 @@ function RotateCard() {
 
          <div
           ref={smallImg8}
-          className="absolute inset-0 "
+          className="absolute inset-0 max-[900px]:hidden"
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image
