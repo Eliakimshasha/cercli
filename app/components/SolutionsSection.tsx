@@ -37,6 +37,7 @@ const solutions = [
 
 export default function SolutionsSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLHeadingElement | null>(null);
 
   useGSAP(
     () => {
@@ -45,55 +46,55 @@ export default function SolutionsSection() {
         sectionRef.current || undefined,
       );
 
-      // Card 0 sits in place at the bottom of the stack.
-      // Cards 1..n start fully below the container, waiting to slide up on top.
-      panels.forEach((panel, i) => {
-        gsap.set(panel, {
-          y: i === 0 ? 0 : "100%",
-          scale: 1,
-          zIndex: i + 1, // higher index = on top when fully slid up
-          transformOrigin: "center top",
-          willChange: "transform",
-        });
+      if (!panels.length) return;
+
+      gsap.set(panels, {
+        opacity: 0,
+        y: 40,
+        zIndex: 0,
+        transformOrigin: "center center",
+        willChange: "transform, opacity",
       });
+      gsap.set(panels[0], { opacity: 1, y: 0, zIndex: 1 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
           end: `+=${panels.length * 100}vh`,
-          scrub: 0.8,
+          scrub: true,
           pin: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
 
-      // Each scroll step: slide panel i up from below,
-      // and gently push all panels below it back (scale + slight y offset)
-      panels.forEach((panel, i) => {
-        if (i === 0) return;
+      if (headerRef.current) {
+        tl.to(headerRef.current, { opacity: 0, duration: 0.4 }, 0);
+      }
 
-        const position = i - 1; // stagger each step on the timeline
+      // Lift panels into the header space as it fades out
+      tl.to(
+        panels,
+        {
+          y: -48,
+          duration: 0.4,
+          ease: "none",
+        },
+        0,
+      );
 
-        // Incoming card slides up from below
+      panels.forEach((panel, index) => {
+        const position = index;
         tl.to(
           panel,
-          { y: 0, ease: "none", duration: 1 },
+          { opacity: 1, y: 0, zIndex: 2, duration: 0.6 },
           position,
         );
 
-        // All cards already in place scale back slightly to show depth
-        for (let j = 0; j < i; j++) {
-          const depth = i - j; // how many cards below the top
+        if (index > 0) {
           tl.to(
-            panels[j],
-            {
-              scale: 1 - depth * 0.04,
-              y: -(depth * 10), // peek above by a few px
-              ease: "none",
-              duration: 1,
-            },
+            panels[index - 1],
+            { opacity: 0, y: -20, zIndex: 0, duration: 0.6 },
             position,
           );
         }
@@ -106,26 +107,24 @@ export default function SolutionsSection() {
     <section
       ref={sectionRef}
       id="solutions"
-      className="bg-white py-16 lg:py-24"
+      className="bg-white py-16 lg:pb-24 lg:pt-0"
     >
-      <div className="mx-auto w-full max-w-[1180px] px-6">
-        <h2 className="mx-auto max-w-3xl text-center text-[2.4rem] max-[900px]:text-[1.7rem] max-[900px]:mb-10 font-bold leading-[1.05] text-[#2c2c2c]">
+      <div className="mx-auto w-full max-w-295 px-6">
+        <h2
+          ref={headerRef}
+          className="mx-auto max-w-3xl text-center text-[2.4rem] max-[900px]:text-[1.7rem] max-[900px]:mb-10 font-bold leading-[1.05] text-[#2c2c2c]"
+        >
           Solving People Management Challenges for MENA
         </h2>
 
-        {/*
-          overflow-hidden clips cards coming up from below.
-          Cards are position:absolute and stacked via z-index.
-          The container height defines the "window" you see.
-        */}
         <div
-          className="relative mt-14 overflow-hidden rounded-[32px]"
-          style={{ minHeight: "clamp(480px, 55vh, 620px)" }}
+          className="relative  overflow-hidden rounded-4xl"
+          style={{ minHeight: "clamp(520px, 65vh, 720px)" }}
         >
           {solutions.map((solution) => (
             <article
               key={solution.title}
-              className="solution-panel absolute inset-0 grid items-center gap-8 rounded-[32px] bg-white max-[900px]:flex max-[900px]:flex-col-reverse lg:grid-cols-[1.05fr_1fr]"
+              className="solution-panel absolute inset-0 grid items-center gap-8 rounded-4xl bg-white p-6 max-[900px]:flex max-[900px]:flex-col-reverse lg:grid-cols-[1.05fr_1fr]"
             >
               <div className="px-2 sm:px-6 lg:px-8">
                 <h3 className="text-[clamp(1.6rem,2.8vw,2.2rem)] font-bold text-[#2c2c2c]">
