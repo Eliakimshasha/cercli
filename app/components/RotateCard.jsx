@@ -78,7 +78,9 @@ function RotateCard() {
           const footer = document.querySelector("footer");
           const animationScroll = 3000;
           const overlapDistance = footer
-            ? footer.offsetHeight
+            ? isMobile
+              ? footer.offsetHeight * 0.5
+              : footer.offsetHeight
             : window.innerHeight;
           const totalScroll = animationScroll + overlapDistance;
           const animationEndProgress = animationScroll / totalScroll;
@@ -95,7 +97,8 @@ function RotateCard() {
               onRefresh: (self) => {
                 pinSpacer = self.pin?.parentNode ?? null;
                 if (pinSpacer) {
-                  spacerPadding = window.getComputedStyle(pinSpacer).paddingBottom;
+                  spacerPadding =
+                    window.getComputedStyle(pinSpacer).paddingBottom;
                 }
               },
               onUpdate: (self) => {
@@ -266,7 +269,8 @@ function RotateCard() {
             "<",
           );
           const animationDuration = timeline.duration();
-          const holdDuration = animationDuration * (overlapDistance / animationScroll);
+          const holdDuration =
+            animationDuration * (overlapDistance / animationScroll);
           timeline.to({}, { duration: holdDuration });
 
           return () => {
@@ -283,7 +287,7 @@ function RotateCard() {
   return (
     <section
       ref={sectionRef}
-      className="h-screen flex items-center justify-center relative perspective-distant"
+      className="h-screen bg-red-900 flex items-center justify-center relative perspective-distant"
     >
       <div
         // this should be the first animation
@@ -379,7 +383,6 @@ function RotateCard() {
           style={{ transformStyle: "preserve-3d" }}
         >
           <Image src={cardImage} alt="Card 1" fill className="object-cover " />
-          
         </div>
 
         {/* Second Card */}
