@@ -251,7 +251,7 @@ function RotateCard() {
             {
               width: "100px",
               height: "100px",
-              top: "130%",
+              top: "100%",
               left: "15%",
               duration: 1,
             },
